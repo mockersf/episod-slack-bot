@@ -36,7 +36,7 @@ dependencies = [
 [[package]]
 name = "aws_lambda"
 version = "0.1.0"
-source = "git+https://github.com/srijs/rust-aws-lambda#71b65d9261888908c39f1342c0782f4a83671bcc"
+source = "git+https://github.com/srijs/rust-aws-lambda#16f3d1d202d1019a4389a7ff032e1c474deb982f"
 dependencies = [
  "aws_lambda_events 0.1.0 (git+https://github.com/srijs/rust-aws-lambda)",
  "aws_lambda_gateway 0.1.0 (git+https://github.com/srijs/rust-aws-lambda)",
@@ -51,7 +51,7 @@ dependencies = [
 [[package]]
 name = "aws_lambda_events"
 version = "0.1.0"
-source = "git+https://github.com/srijs/rust-aws-lambda#71b65d9261888908c39f1342c0782f4a83671bcc"
+source = "git+https://github.com/srijs/rust-aws-lambda#16f3d1d202d1019a4389a7ff032e1c474deb982f"
 dependencies = [
  "base64 0.9.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "bytes 0.4.10 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -64,7 +64,7 @@ dependencies = [
 [[package]]
 name = "aws_lambda_gateway"
 version = "0.1.0"
-source = "git+https://github.com/srijs/rust-aws-lambda#71b65d9261888908c39f1342c0782f4a83671bcc"
+source = "git+https://github.com/srijs/rust-aws-lambda#16f3d1d202d1019a4389a7ff032e1c474deb982f"
 dependencies = [
  "base64 0.9.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "failure 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -79,7 +79,7 @@ dependencies = [
 [[package]]
 name = "aws_lambda_runtime"
 version = "0.1.0"
-source = "git+https://github.com/srijs/rust-aws-lambda#71b65d9261888908c39f1342c0782f4a83671bcc"
+source = "git+https://github.com/srijs/rust-aws-lambda#16f3d1d202d1019a4389a7ff032e1c474deb982f"
 dependencies = [
  "backtrace-parser 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bytes 0.4.10 (registry+https://github.com/rust-lang/crates.io-index)",
