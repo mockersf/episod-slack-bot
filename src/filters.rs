@@ -110,6 +110,8 @@ impl Filters {
             query if query.contains("samedi") => Some(Day::Samedi),
             query if query.contains("dimanche") => Some(Day::Dimanche),
             query if query.contains("demain") => Some(Day::Demain),
+            query if query.contains("aujourd'hui") => Some(Day::Today),
+            query if query.contains(" ce ") => Some(Day::Today),
             _ => None,
         }
     }
@@ -153,6 +155,7 @@ pub enum Day {
     Sunday,
     Demain,
     Tomorrow,
+    Today,
 }
 impl Day {
     pub fn to_weekday(&self) -> Weekday {
@@ -165,6 +168,7 @@ impl Day {
             Day::Samedi | Day::Saturday => Weekday::Sat,
             Day::Dimanche | Day::Sunday => Weekday::Sun,
             Day::Demain | Day::Tomorrow => Utc::now().naive_utc().weekday().succ(),
+            Day::Today => Utc::now().naive_utc().weekday(),
         }
     }
 }
