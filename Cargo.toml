@@ -11,7 +11,7 @@ path = "src/lib.rs"
 # Crates to interact with AWS
 aws_lambda = { git = "https://github.com/srijs/rust-aws-lambda" }
 rusoto_core = "0.34"
-rusoto_sns = "0.34"
+rusoto_sns = "0.35"
 http = "0.1"
 
 # Crate with slack types
