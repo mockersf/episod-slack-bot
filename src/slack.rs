@@ -1,5 +1,5 @@
-use rand;
-use rand::Rng;
+use rand::seq::SliceRandom;
+use rand::thread_rng;
 use slack_push::message::{Attachment, AttachmentAction, Message};
 
 use super::Session;
@@ -10,6 +10,8 @@ static COLORS: [&'static str; 13] = [
 ];
 
 pub fn sessions_to_slack_message(sessions: &[Session], channel: String) -> Message {
+    let mut rng = thread_rng();
+
     Message {
             attachments: Some(sessions
                 .iter()
@@ -38,11 +40,11 @@ pub fn sessions_to_slack_message(sessions: &[Session], channel: String) -> Messa
                         "pilates" => Some("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/129/person-doing-cartwheel_1f938.png".to_string()),
                         _ => Some("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/129/flexed-biceps_1f4aa.png".to_string()),
                     },
-                    color: Some(rand::thread_rng().choose(&COLORS).unwrap().to_string()),
+                    color: Some(COLORS.choose(&mut rng).unwrap().to_string()),
                     author_name: Some(format!("{} ({})", session.coach, session.hub)),
                     ..Default::default()
                 }).collect()),
-            channel: channel,
+            channel,
             ..Default::default()
         }
 }
