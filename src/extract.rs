@@ -22,7 +22,8 @@ pub fn extract_sessions_with_filter<'a>(html: &'a str, filters: &Filters) -> Vec
                 Name("li")
                     .and(Class("planning-item"))
                     .and(Not(Attr("id", "no-session"))),
-            ).map(node_to_session)
+            )
+            .map(node_to_session)
             .collect();
         *sessions_lock = Some(sessions.clone());
         sessions
@@ -33,22 +34,28 @@ pub fn extract_sessions_with_filter<'a>(html: &'a str, filters: &Filters) -> Vec
         .filter(|session| match filters.hub {
             Some(ref hub) => session.hub.contains(hub),
             _ => true,
-        }).filter(|session| match filters.coach {
+        })
+        .filter(|session| match filters.coach {
             Some(ref coach) => session.coach.contains(coach),
             _ => true,
-        }).filter(|session| match filters.sport {
+        })
+        .filter(|session| match filters.sport {
             Some(ref sport) => session.sport.contains(sport),
             _ => true,
-        }).filter(|session| match filters.day {
+        })
+        .filter(|session| match filters.day {
             Some(ref day) => session.date.weekday() == day.to_weekday(),
             _ => true,
-        }).filter(|session| match filters.date {
+        })
+        .filter(|session| match filters.date {
             Some(ref date) => session.date == *date,
             _ => true,
-        }).filter(|session| match filters.period {
+        })
+        .filter(|session| match filters.period {
             Some(ref period) => period.match_time(session.time),
             _ => true,
-        }).cloned()
+        })
+        .cloned()
         .collect()
 }
 
@@ -88,6 +95,7 @@ pub fn node_to_session(node: Node) -> super::Session {
                 .last()
                 .unwrap()
                 .text(),
-        ).unwrap(),
+        )
+        .unwrap(),
     }
 }

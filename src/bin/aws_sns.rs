@@ -40,7 +40,8 @@ fn send_sessions(notifications: &aws_lambda::event::sns::SnsEvent) {
             .json(&episod::slack::sessions_to_slack_message(
                 &sessions,
                 msg.channel,
-            )).bearer_auth(env::var("slack_token").unwrap())
+            ))
+            .bearer_auth(env::var("slack_token").unwrap())
             .send()
             .unwrap()
             .text()

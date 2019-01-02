@@ -42,10 +42,12 @@ pub fn slack_event(
                             token,
                             channel,
                             query: text,
-                        }).unwrap(),
+                        })
+                        .unwrap(),
                         topic_arn: Some(env::var("topic").unwrap()),
                         ..Default::default()
-                    }).sync()
+                    })
+                    .sync()
                     .unwrap();
                 Ok(http::response::Builder::new()
                     .status(200)
@@ -68,7 +70,8 @@ fn main() {
             (method, path) => Err(aws_api_helpers::HttpError::UnexpectedPath {
                 method: method.to_string(),
                 path: path.to_string(),
-            }.into()),
+            }
+            .into()),
         };
 
         Ok(match response {

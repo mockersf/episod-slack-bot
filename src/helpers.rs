@@ -38,5 +38,6 @@ pub fn duration_to_duration(duration: &str) -> i64 {
     match duration_components[1] {
         "mins" => Duration::minutes(duration_components[0].parse::<i64>().unwrap()),
         _ => Duration::minutes(duration_components[0].parse::<i64>().unwrap()),
-    }.num_minutes()
+    }
+    .num_minutes()
 }
