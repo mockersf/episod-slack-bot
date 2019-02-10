@@ -1,15 +1,8 @@
 #[macro_use]
 extern crate serde;
-extern crate serde_json;
 
 #[macro_use]
 extern crate lazy_static;
-extern crate aws_lambda;
-extern crate chrono;
-extern crate rand;
-extern crate reqwest;
-
-extern crate episod;
 
 mod aws_helpers;
 

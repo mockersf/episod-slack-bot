@@ -66,7 +66,7 @@ pub fn node_to_session(node: Node) -> super::Session {
         coach: node.attr("data-coach").unwrap().to_string(),
         hub: node.attr("data-hub").unwrap().to_string(),
         full: node.is(Class("status-complet")),
-        duration_minutes: ::helpers::duration_to_duration(
+        duration_minutes: crate::helpers::duration_to_duration(
             &node
                 .find(Class("planning-time"))
                 .last()
@@ -76,7 +76,7 @@ pub fn node_to_session(node: Node) -> super::Session {
                 .unwrap()
                 .text(),
         ),
-        time: ::helpers::time_to_time(
+        time: crate::helpers::time_to_time(
             &node
                 .find(Class("planning-time"))
                 .last()
@@ -86,7 +86,7 @@ pub fn node_to_session(node: Node) -> super::Session {
                 .unwrap()
                 .text(),
         ),
-        date: ::helpers::short_date_to_date(
+        date: crate::helpers::short_date_to_date(
             &node
                 .find(Class("planning-date"))
                 .last()

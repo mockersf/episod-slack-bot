@@ -1,19 +1,8 @@
 #[macro_use]
 extern crate serde;
-extern crate serde_json;
-
-extern crate http;
 
 #[macro_use]
 extern crate failure;
-
-extern crate aws_lambda;
-extern crate rusoto_core;
-extern crate rusoto_sns;
-
-extern crate slack_push;
-
-extern crate episod;
 
 use std::collections::HashMap;
 use std::env;

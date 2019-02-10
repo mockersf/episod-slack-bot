@@ -1,15 +1,10 @@
-extern crate chrono;
-extern crate rand;
-extern crate select;
 #[macro_use]
 extern crate serde;
 #[macro_use]
 extern crate lazy_static;
 
-extern crate slack_push;
-
 mod extract;
-pub use extract::extract_sessions_with_filter;
+pub use crate::extract::extract_sessions_with_filter;
 pub mod filters;
 mod helpers;
 pub mod slack;
