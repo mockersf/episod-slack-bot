@@ -1,6 +1,5 @@
-extern crate serde;
 #[macro_use]
-extern crate serde_derive;
+extern crate serde;
 extern crate serde_json;
 
 extern crate http;
@@ -20,7 +19,7 @@ use std::collections::HashMap;
 use std::env;
 
 use rusoto_sns::Sns;
-use slack_push::event::{Event, EventInfo};
+use slack_push::{Event, EventInfo};
 
 mod aws_api_helpers;
 mod aws_helpers;
