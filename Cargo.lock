@@ -1639,7 +1639,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "slack_push"
 version = "0.1.0"
-source = "git+https://github.com/mockersf/slack-push#a8261f2658c83031e1f4f7c79a66bb00250ee710"
+source = "git+https://github.com/mockersf/slack-push#eef0a9fc5ac2e39812413e0e2d7b145e39eb8b2f"
 dependencies = [
  "serde 1.0.90 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
