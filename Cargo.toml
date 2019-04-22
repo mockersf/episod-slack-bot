@@ -11,7 +11,7 @@ path = "src/lib.rs"
 [dependencies]
 # Crates to interact with AWS
 aws_lambda = { git = "https://github.com/srijs/rust-aws-lambda" }
-rusoto_core = "0.37"
+rusoto_core = "0.38"
 rusoto_sns = "0.37"
 http = "0.1"
 
