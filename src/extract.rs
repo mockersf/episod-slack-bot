@@ -1,6 +1,7 @@
 use std::sync::{Arc, RwLock};
 
 use chrono::prelude::*;
+use lazy_static::lazy_static;
 
 use select::predicate::{Attr, Class, Name, Not, Predicate};
 use select::{document::Document, node::Node};
@@ -10,6 +11,69 @@ use super::{filters::Filters, Session};
 lazy_static! {
     pub static ref CACHE_SESSIONS: Arc<RwLock<Option<Vec<Session>>>> =
         { Arc::new(RwLock::new(None)) };
+}
+
+pub fn extract_session_details<'a>(link: &str, html: &'a str) -> Session {
+    Document::from(html)
+        .find(Name("div").and(Class("session-item")))
+        .next()
+        .map(|node| super::Session {
+            reservation_link: String::from(link),
+            coach: node
+                .find(Name("span"))
+                .last()
+                .expect("no coach")
+                .text()
+                .split_off(5),
+            date: crate::helpers::short_date_to_date(
+                &node
+                    .find(Name("h4").and(Class("masterclass-txt")))
+                    .last()
+                    .expect("no date")
+                    .text()
+                    .split(' ')
+                    .last()
+                    .expect("no ' '"),
+            )
+            .unwrap(),
+            time: crate::helpers::time_to_time(
+                node.find(Name("time"))
+                    .last()
+                    .expect("could not find time")
+                    .text()
+                    .split(" (")
+                    .next()
+                    .expect("no ' ('"),
+            ),
+            duration_minutes: crate::helpers::duration_to_duration(
+                node.find(Name("time"))
+                    .last()
+                    .expect("could not find time")
+                    .text()
+                    .split('(')
+                    .last()
+                    .expect("no (")
+                    .split(')')
+                    .next()
+                    .expect("no )"),
+                ' ',
+            ),
+            full: false,
+            hub: node
+                .find(Name("address"))
+                .last()
+                .expect("address not found")
+                .first_child()
+                .expect("got a first child")
+                .text(),
+            sport: node
+                .find(Name("h2").and(Class("masterclass-txt")))
+                .last()
+                .expect("sport not found")
+                .text()
+                .to_lowercase(),
+        })
+        .expect("no node found for session")
 }
 
 pub fn extract_sessions_with_filter<'a>(html: &'a str, filters: &Filters) -> Vec<Session> {
@@ -31,6 +95,13 @@ pub fn extract_sessions_with_filter<'a>(html: &'a str, filters: &Filters) -> Vec
 
     sessions
         .iter()
+        .filter(|session| {
+            session
+                .date
+                .signed_duration_since(Utc::now().naive_utc().date())
+                .num_days()
+                < 8
+        })
         .filter(|session| match filters.hub {
             Some(ref hub) => session.hub.contains(hub),
             _ => true,
@@ -75,6 +146,7 @@ pub fn node_to_session(node: Node) -> super::Session {
                 .last()
                 .unwrap()
                 .text(),
+            '\u{a0}',
         ),
         time: crate::helpers::time_to_time(
             &node

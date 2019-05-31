@@ -33,8 +33,8 @@ pub fn time_to_time(time: &str) -> NaiveTime {
     )
 }
 
-pub fn duration_to_duration(duration: &str) -> i64 {
-    let duration_components: Vec<&str> = duration.split('\u{a0}').collect();
+pub fn duration_to_duration(duration: &str, split: char) -> i64 {
+    let duration_components: Vec<&str> = duration.split(split).collect();
     match duration_components[1] {
         "mins" => Duration::minutes(duration_components[0].parse::<i64>().unwrap()),
         _ => Duration::minutes(duration_components[0].parse::<i64>().unwrap()),

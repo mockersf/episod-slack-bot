@@ -1,4 +1,5 @@
 use chrono::prelude::*;
+use serde::Deserialize;
 
 #[derive(Debug, Deserialize, Default)]
 pub struct Filters {

@@ -1,10 +1,7 @@
-#[macro_use]
-extern crate serde;
-#[macro_use]
-extern crate lazy_static;
+use serde::Serialize;
 
 mod extract;
-pub use crate::extract::extract_sessions_with_filter;
+pub use crate::extract::{extract_session_details, extract_sessions_with_filter};
 pub mod filters;
 mod helpers;
 pub mod slack;

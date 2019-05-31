@@ -1,10 +1,10 @@
-#[macro_use]
-extern crate serde;
+use std::env;
 
-#[macro_use]
-extern crate lazy_static;
+use aws_lambda_events::event::sns::SnsEvent;
+use lambda_runtime::{error::HandlerError, lambda, Context};
+use lazy_static::lazy_static;
 
-mod aws_helpers;
+mod common;
 
 lazy_static! {
     pub static ref PLANNING_HTML: String = {
@@ -15,11 +15,13 @@ lazy_static! {
     };
 }
 
-use std::env;
+fn main() {
+    lambda!(send_sessions)
+}
 
-fn send_sessions(notifications: &aws_lambda::event::sns::SnsEvent) {
-    notifications.records.iter().for_each(|notification| {
-        let msg: aws_helpers::Notification =
+fn send_sessions(notification: SnsEvent, _: Context) -> Result<(), HandlerError> {
+    notification.records.iter().for_each(|notification| {
+        let msg: common::QueryNotification =
             serde_json::from_str(&notification.clone().sns.message.unwrap()).unwrap();
 
         let sessions = episod::extract_sessions_with_filter(
@@ -39,11 +41,5 @@ fn send_sessions(notifications: &aws_lambda::event::sns::SnsEvent) {
             .text()
             .unwrap();
     });
-}
-
-fn main() {
-    aws_lambda::start(|notifications: aws_lambda::event::sns::SnsEvent| {
-        send_sessions(&notifications);
-        Ok(())
-    })
+    Ok(())
 }
