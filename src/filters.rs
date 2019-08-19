@@ -32,7 +32,7 @@ impl Filters {
         }
     }
 
-    #[allow(clippy::cyclomatic_complexity)]
+    #[allow(clippy::cognitive_complexity)]
     fn coach_from_query(query: &str) -> Option<String> {
         match query {
             query if query.contains("alexandre") => Some("alexandre".to_string()),

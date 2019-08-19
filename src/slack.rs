@@ -7,7 +7,7 @@ use slack_push::message::{Attachment, AttachmentAction, Message};
 
 use super::Session;
 
-static COLORS: [&'static str; 13] = [
+static COLORS: [&str; 13] = [
     "#C0C0C0", "#FF0000", "#00FF00", "#439FE0", "#00FFFF", "#008080", "#0000FF", "#FF00FF",
     "#800080", "#3cb371", "#ffa500", "#6a5acd", "#ee82ee",
 ];
