@@ -14,7 +14,7 @@ lambda_runtime = "0.2"
 lambda_http = "0.1"
 aws_lambda_events = "0.2"
 rusoto_core = "0.39"
-rusoto_sns = "0.39"
+rusoto_sns = "0.40"
 
 # Crate with slack types
 slack_push = { git = "https://github.com/mockersf/slack-push" }
