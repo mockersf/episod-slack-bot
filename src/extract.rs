@@ -1,23 +1,18 @@
-use std::sync::{Arc, RwLock};
+// use std::sync::{Arc, RwLock};
 
 use chrono::prelude::*;
-use lazy_static::lazy_static;
 
 use select::predicate::{Attr, Class, Name, Not, Predicate};
 use select::{document::Document, node::Node};
 
 use super::{filters::Filters, Session};
 
-lazy_static! {
-    pub static ref CACHE_SESSIONS: Arc<RwLock<Option<Vec<Session>>>> =
-        { Arc::new(RwLock::new(None)) };
-}
-
-pub fn extract_session_details<'a>(link: &str, html: &'a str) -> Session {
+pub fn extract_session_details<'a>(link: &str, id: &str, html: &'a str) -> Session {
     Document::from(html)
         .find(Name("div").and(Class("session-item")))
         .next()
         .map(|node| super::Session {
+            id: String::from(id),
             reservation_link: String::from(link),
             coach: node
                 .find(Name("span"))
@@ -77,21 +72,14 @@ pub fn extract_session_details<'a>(link: &str, html: &'a str) -> Session {
 }
 
 pub fn extract_sessions_with_filter<'a>(html: &'a str, filters: &Filters) -> Vec<Session> {
-    let mut sessions_lock = CACHE_SESSIONS.write().unwrap();
-    let sessions = if let Some(sessions) = sessions_lock.clone() {
-        sessions
-    } else {
-        let sessions: Vec<Session> = Document::from(html)
-            .find(
-                Name("li")
-                    .and(Class("planning-item"))
-                    .and(Not(Attr("id", "no-session"))),
-            )
-            .map(node_to_session)
-            .collect();
-        *sessions_lock = Some(sessions.clone());
-        sessions
-    };
+    let sessions: Vec<Session> = Document::from(html)
+        .find(
+            Name("li")
+                .and(Class("planning-item"))
+                .and(Not(Attr("id", "no-session"))),
+        )
+        .map(node_to_session)
+        .collect();
 
     sessions
         .iter()
@@ -132,6 +120,7 @@ pub fn extract_sessions_with_filter<'a>(html: &'a str, filters: &Filters) -> Vec
 
 pub fn node_to_session(node: Node) -> super::Session {
     super::Session {
+        id: node.attr("data-id").unwrap().to_string(),
         reservation_link: node.attr("data-href").unwrap().to_string(),
         sport: node.attr("data-sport").unwrap().to_string(),
         coach: node.attr("data-coach").unwrap().to_string(),

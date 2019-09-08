@@ -46,6 +46,8 @@ pub fn slack_event(req: &Request) -> Result<Response<String>, failure::Error> {
                         message: serde_json::to_string(&common::QueryNotification {
                             channel,
                             query: text,
+                            page: 1,
+                            found: vec![],
                         })
                         .unwrap(),
                         topic_arn: Some(env::var("topic_session_query").unwrap()),
@@ -64,14 +66,28 @@ pub fn slack_event(req: &Request) -> Result<Response<String>, failure::Error> {
                 ..
             } => {
                 let episod_session_link =
-                    Regex::new(r"https?://www.episod.com/reservation/\d+/?$").unwrap();
+                    Regex::new(r"https?://www.episod.com/reservation/(?P<session_id>\d+)/?$")
+                        .unwrap();
                 let client = rusoto_sns::SnsClient::new(rusoto_core::Region::UsEast1);
                 links
                     .into_iter()
                     .map(|link| link.url)
-                    .filter(|url| episod_session_link.is_match(url))
-                    .map(|url| common::GetNotification {
+                    .filter_map(|url| {
+                        episod_session_link.captures(&url).map(|captures| {
+                            (
+                                url.clone(),
+                                String::from(
+                                    captures
+                                        .name("session_id")
+                                        .expect("session id not found in link but was captured")
+                                        .as_str(),
+                                ),
+                            )
+                        })
+                    })
+                    .map(|(url, session_id)| common::GetNotification {
                         link: url,
+                        id: session_id,
                         channel: channel.clone(),
                         message_ts: message_ts.clone(),
                     })

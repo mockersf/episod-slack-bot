@@ -8,6 +8,7 @@ pub mod slack;
 
 #[derive(Debug, Serialize, Clone)]
 pub struct Session {
+    pub id: String,
     pub reservation_link: String,
     pub coach: String,
     pub hub: String,
