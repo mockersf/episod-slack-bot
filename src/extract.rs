@@ -125,7 +125,14 @@ pub fn node_to_session(node: Node) -> super::Session {
         sport: node.attr("data-sport").unwrap().to_string(),
         coach: node.attr("data-coach").unwrap().to_string(),
         hub: node.attr("data-hub").unwrap().to_string(),
-        full: node.is(Class("status-complet")),
+        full: node
+            .find(Class("planning-cta"))
+            .last()
+            .unwrap()
+            .find(Name("span"))
+            .last()
+            .map(|span| span.text() == "complet")
+            .unwrap_or(false),
         duration_minutes: crate::helpers::duration_to_duration(
             &node
                 .find(Class("planning-time"))

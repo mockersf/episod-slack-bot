@@ -29,7 +29,11 @@ fn session_to_attachement(session: &Session) -> Attachment {
         )),
         actions: Some(vec![AttachmentAction::Button {
             url: Some(session.reservation_link.clone()),
-            text: "Réserver 🏅".to_string(),
+            text: if session.full {
+                "Complet 🤷‍".to_string()
+            } else {
+                "Réserver 🏅".to_string()
+            },
             style: Some("primary".to_string()),
             name: None,
             value: None,
