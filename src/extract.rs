@@ -88,7 +88,7 @@ pub fn extract_sessions_with_filter<'a>(html: &'a str, filters: &Filters) -> Vec
                 .date
                 .signed_duration_since(Utc::now().naive_utc().date())
                 .num_days()
-                < 8
+                < 15
         })
         .filter(|session| match filters.hub {
             Some(ref hub) => session.hub.contains(hub),
