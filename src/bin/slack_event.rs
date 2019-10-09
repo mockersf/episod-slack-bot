@@ -27,7 +27,7 @@ fn handler(request: Request, _context: Context) -> Result<impl IntoResponse, Han
                 method: method.to_string(),
                 path: path.to_string(),
             };
-            Err(Error::from(e))?
+            Err(Error::from(e).into())
         }
     }
 }
