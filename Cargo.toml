@@ -20,7 +20,7 @@ rusoto_sns = "0.42"
 slack_push = { git = "https://github.com/mockersf/slack-push" }
 
 # Crate to make http request from lambda
-reqwest = "0.9"
+reqwest = "0.10"
 
 # Serde
 serde = {version = "1.0", features = [ "derive" ] }
