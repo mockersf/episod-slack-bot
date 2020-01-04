@@ -17,7 +17,7 @@ fn send_sessions(notification: SnsEvent, _: Context) -> Result<(), HandlerError>
 
         let url = format!("https://www.episod.com/wp-admin/admin-ajax.php?page={}&wctrl=session&waction=ajax_get_sessions&wplug=wr", msg.page);
 
-        let planning = reqwest::get(&url)
+        let planning = reqwest::blocking::get(&url)
                 .unwrap()
                 .text()
                 .unwrap();
@@ -29,7 +29,7 @@ fn send_sessions(notification: SnsEvent, _: Context) -> Result<(), HandlerError>
 
         let channel = msg.channel.clone();
 
-        reqwest::Client::new()
+        reqwest::blocking::Client::new()
             .post("https://slack.com/api/chat.postMessage")
             .json(&episod::slack::sessions_to_slack_message(
                 &sessions, channel,

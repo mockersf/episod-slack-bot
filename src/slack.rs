@@ -50,7 +50,7 @@ fn session_to_attachement(session: &Session) -> Attachment {
             "pilates" => Some(emoji_to_url("person-doing-cartwheel_1f938")),
             _ => Some(emoji_to_url("flexed-biceps_1f4aa")),
         },
-        color: Some(COLORS.choose(&mut rng).unwrap().to_string()),
+        color: Some((*COLORS.choose(&mut rng).unwrap()).to_string()),
         author_name: Some(format!("{} ({})", session.coach, session.hub)),
         ..Default::default()
     }
