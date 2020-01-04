@@ -17,10 +17,10 @@ fn send_sessions(notification: SnsEvent, _: Context) -> Result<(), HandlerError>
         let session = episod::extract_session_details(
             &msg.link,
             &msg.id,
-            &reqwest::get(&msg.link).unwrap().text().unwrap(),
+            &reqwest::blocking::get(&msg.link).unwrap().text().unwrap(),
         );
 
-        reqwest::Client::new()
+        reqwest::blocking::Client::new()
             .post("https://slack.com/api/chat.unfurl")
             .json(&episod::slack::session_to_slack_unfurl(
                 msg.channel,
