@@ -8,14 +8,8 @@ pub fn short_date_to_date(short_date: &str) -> Option<NaiveDate> {
     if date_components.len() != 2 {
         return None;
     };
-    let day = match date_components[0].parse::<u32>() {
-        Ok(v) => v,
-        _ => return None,
-    };
-    let month = match date_components[1].parse::<u32>() {
-        Ok(v) => v,
-        _ => return None,
-    };
+    let day = date_components.get(0).and_then(|v| v.parse::<u32>().ok())?;
+    let month = date_components.get(1).and_then(|v| v.parse::<u32>().ok())?;
     let date = NaiveDate::from_ymd(year, month, day);
     if date < now.date() {
         Some(NaiveDate::from_ymd(year + 1, month, day))
@@ -35,8 +29,8 @@ pub fn time_to_time(time: &str) -> NaiveTime {
 
 pub fn duration_to_duration(duration: &str, split: char) -> i64 {
     let duration_components: Vec<&str> = duration.split(split).collect();
-    match duration_components[1] {
-        "mins" => Duration::minutes(duration_components[0].parse::<i64>().unwrap()),
+    match duration_components.get(1).copied() {
+        Some("mins") => Duration::minutes(duration_components[0].parse::<i64>().unwrap()),
         _ => Duration::minutes(duration_components[0].parse::<i64>().unwrap()),
     }
     .num_minutes()
