@@ -31,6 +31,6 @@ chrono = { version = "0.4", features = [ "serde" ] }
 # lazy_static = "1.4"
 failure = "0.1"
 rand = "0.7"
-select = "0.4"
+select = "0.5"
 regex = "1.3"
 
